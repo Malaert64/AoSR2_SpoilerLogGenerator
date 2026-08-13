@@ -456,6 +456,22 @@ const itemLocLookup = {
     "item_75" : "Arena Giant Skeleton room",
 }
 
+const checkCountsLookup = {
+    "Castle Corridor" : 20,
+    "Chapel" : 12,
+    "Study" : 11,
+    "Dance Hall" : 9,
+    "Inner Quarters" : 8,
+    "Floating Gardens" : 6,
+    "Clock Tower" : 5,
+    "Underground Reservoir" : 21,
+    "Forbidden Area" : 2,
+    "Arena" : 7,
+    "Cemetery" : 4,
+    "Top Floor" : 9,
+    "Chaotic Realm" : 3
+}
+
 // Detect file uploads and start operations.
 logInput.addEventListener('change', async (event) => {
     console.log("Updating...");
@@ -660,7 +676,9 @@ function formatOutput(seed, transitions, bookLocations, movementLocations, items
         outputStr += ("\n" + area + ":");
         itemsByArea[area].sort();
         for (const item of itemsByArea[area]) { outputStr += ("\n" + item); }
-        outputStr += "\n";
+        let canisterCount = String(checkCountsLookup[area] - itemsByArea[area].length);
+        outputStr += ("\n(" + canisterCount + " soul "); 
+        outputStr += canisterCount === "1" ? "canister)\n" : "canisters)\n";
     }
 
     return outputStr;
