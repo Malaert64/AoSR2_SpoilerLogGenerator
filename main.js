@@ -522,16 +522,13 @@ function processInput(logLines) {
     // Iterate to find start of data (seed readout line).
     while (!logLines[lineIndex].includes("Seed:")) { lineIndex++; }
     console.log(`Found start of data on line ${lineIndex + 1}`);
-    seed = logLines[lineIndex].trim().slice(logLines[lineIndex].lastIndexOf(" ") + 1);
+    seed = logLines[lineIndex].replace(/aosrando-opt-bundle\.js:\d+(?::\d+)?/g, "").trim().split(" ")[1];
     lineIndex++;
 
     // Continue to end of file, or until irrelevant data found.
     while (lineIndex < logLines.length && !logLines[lineIndex].includes("Seed:")) { 
         // Get cleaned line.
-        let line = logLines[lineIndex].trim();
-        if (line.includes("aosrando-opt-bundle")) {
-            line = line.slice(line.indexOf(" ") + 1);
-        }
+        let line = logLines[lineIndex].replace(/aosrando-opt-bundle\.js:\d+(?::\d+)?/g, "").trim();
 
         // Detect area transition lines.
         if (line.includes("<=>")) {
